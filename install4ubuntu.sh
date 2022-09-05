@@ -43,6 +43,11 @@
 #
 #    $ docker run -it ubuntu:20.04 /bin/bash
 
+#### trying to reduce verbose log output
+export TERM=dumb
+export NO_COLOR=1
+export DEBIAN_FRONTEND=noninteractive
+
     # Base system
     apt update -y && apt upgrade -y
 
