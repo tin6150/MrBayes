@@ -3,8 +3,19 @@
 # script invoked by github workflow to contain docker container
 # use Ubuntu base.
 # commands from INSTALL-Docker-Ubuntu.md
+# except for Beagle, which didn't work, and I used my own script
 #
 # Install MrBayes+Beagle3 inside an Ubuntu 20.04 Docker container
+
+
+echo "======================================================================"
+echo "===== installing Beagle and MrBayes from their git repo release ======"
+echo "======================================================================"
+
+# beagle-lib env to use with gpu created by previous install script
+# make install to /usr/local
+[[ -f /etc/profile.d/libbeagle.sh ]] && source /etc/profile.d/libbeagle.sh
+
 
 # - Status (June 2020):
 #     - CUDA: N/A
@@ -61,39 +72,58 @@ export DEBIAN_FRONTEND=noninteractive
         libtool \
         make
 
+echo "============================================================"
+echo "============================================================"
+
+echo "====installing openCL===="
+
     # OpenCL
     apt install -y \
         ocl-icd-opencl-dev \
         pocl-opencl-icd
 
+echo "====installing openMPI===="
+
     # OpenMPI
     apt install -y \
         libopenmpi-dev
 
+echo "==== beagle-lib pre-done by separate install script ===="
+
     # Beagle
-    git clone --depth=1 https://github.com/beagle-dev/beagle-lib.git
+    #xx git clone --depth=1 https://github.com/beagle-dev/beagle-lib.git
     cd beagle-lib
-    ./autogen.sh
-    LDFLAGS=-Wl,-rpath=/usr/local/lib ./configure --without-jdk --disable-doxygen-doc
-    make -j2
-    make install
+    #xx ./autogen.sh
+    #LDFLAGS=-Wl,-rpath=/usr/local/lib ./configure --without-jdk --disable-doxygen-doc
+    #make -j2
+    #make install
+
+	### instructions per https://github.com/beagle-dev/beagle-lib/wiki/LinuxInstallInstructions
 
     ##cd /
     cd ..
 
+echo "====installing MrBayes ===="
+
     # MrBayes
     git clone --depth=1 --branch=develop https://github.com/NBISweden/MrBayes.git
     cd MrBayes
-    ./configure --with-mpi --enable-doc=no
+    ## ./configure --with-mpi --enable-doc=no
+    #./configure --with-mpi --enable-doc=yes --with-beagle=/opt/beagle-lib
+    ./configure --with-mpi --enable-doc=yes --with-beagle=/usr/local
     make -j2
 
     # Test MPI (parallel) version
     mpirun --allow-run-as-root -np 1 src/mb <<< 'version;showb;quit'
 
-    make clean
-    ./configure --enable-doc=no
-    make -j2
+	### this produce a serial version, but overwrite prev build?  why?  missing a test condition?
+    #?? make clean
+    #?? ./configure --enable-doc=no
+    #?? make -j2
 
     # Test serial version
     src/mb <<< 'version;showb;quit'
 
+
+echo $?
+date
