@@ -92,7 +92,7 @@ echo "==== beagle-lib pre-done by separate install script ===="
 
     # Beagle
     #xx git clone --depth=1 https://github.com/beagle-dev/beagle-lib.git
-    cd beagle-lib
+    #xx cd beagle-lib
     #xx ./autogen.sh
     #LDFLAGS=-Wl,-rpath=/usr/local/lib ./configure --without-jdk --disable-doxygen-doc
     #make -j2
@@ -101,7 +101,7 @@ echo "==== beagle-lib pre-done by separate install script ===="
 	### instructions per https://github.com/beagle-dev/beagle-lib/wiki/LinuxInstallInstructions
 
     ##cd /
-    cd ..
+    #xx cd ..
 
 echo "====installing MrBayes ===="
 

@@ -42,18 +42,25 @@ RUN echo  ''  ;\
     export TERM=dumb      ;\
     export NO_COLOR=TRUE  ;\
     cd /     ;\
+    cd /opt/gitrepo/container     ;\
+    git branch |tee /opt/gitrepo/container/git.branch.out.txt                 ;\
+    cd /    ;\
+    echo ""
+
+RUN echo  ''  ;\
+    touch _TOP_DIR_OF_CONTAINER_  ;\
+    date | tee -a       _TOP_DIR_OF_CONTAINER_ ;\
+    export TERM=dumb      ;\
+    export NO_COLOR=TRUE  ;\
+    cd /     ;\
     echo ""  ;\
     echo '==================================================================' ;\
     echo '==== install beagle gpu lib ======================================' ;\
     echo '==================================================================' ;\
     echo " calling external shell script..." | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    echo " cd to /opt/gitrepo/container/"    | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    date | tee -a      _TOP_DIR_OF_CONTAINER_                                 ;\
+    echo " cd to /opt/                  "    | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     echo '==================================================================' ;\
-    cd /opt/gitrepo/container     ;\
-    git branch |tee /opt/gitrepo/container/git.branch.out.txt                 ;\
-    # the install from source repo create dir, so cd /opt/gitrepo             ;\
-    cd /opt/gitrepo                                                           ;\
+    # the install from source repo create dir, so cd /opt             ;\
     cd /opt                                                                   ;\
     ln -s /opt/gitrepo/container/install_beagle_src.sh .                      ;\
     bash -x install_beagle_src.sh 2>&1 | tee install_beagle_src.log           ;\
@@ -67,20 +74,20 @@ RUN echo  ''  ;\
     echo '==== install MrBayes phylo sw ====================================' ;\
     echo '==================================================================' ;\
     echo " calling external shell script..." | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    echo " cd to /opt/gitrepo/container/"    | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date | tee -a      _TOP_DIR_OF_CONTAINER_                                 ;\
     echo '==================================================================' ;\
-    cd /opt/gitrepo/container ;\
     # the install from source repo create dir, so cd /opt/ gitrepo             ;\
     cd /opt ;\
-    ln -s /opt/gitrepo/mrbayes/./install4ubuntu.sh /opt ;\
+    #XXln -s /opt/gitrepo/mrbayes/./install4ubuntu.sh /opt ;\
+    ln -s /opt/gitrepo/container/install4ubuntu.sh /opt ;\
     bash -x ./install4ubuntu.sh 2>&1 | tee install_script.log ;\
     echo '========done====Invoking install script===========================' ;\
-    ln -s /opt/MrBayes/src/mb /opt ;\
+    #xxln -s /opt/gitrepo/container/src/mb /bin ;\
     ln -s /opt/MrBayes/src/mb /bin ;\
+    ln -s /opt/MrBayes/src/mb /opt ;\
     echo ''
 
-ENV DBG_CONTAINER_VER  "Dockerfile 2022.1116.2238"
+ENV DBG_CONTAINER_VER  "Dockerfile 2022.1119.0958"
 ENV DBG_DOCKERFILE Dockerfile_plain
 
 RUN  cd / \
@@ -90,12 +97,12 @@ RUN  cd / \
   && echo  "$DBG_CONTAINER_VER"   >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale for Dockerfile"
 
-  #&& echo  "Dockerfile 2022.0905.1319"   >> _TOP_DIR_OF_CONTAINER_   \
 
 ENV TZ America/Los_Angeles
 
 #ENTRYPOINT [ "/bin/bash" ]
 #ENTRYPOINT [ "/opt/gitrepo/mrbayes/MrBayes/src/mb" ]
+#ENTRYPOINT [ "/opt/gitrepo/container/src/mb" ]
 ENTRYPOINT [ "/opt/MrBayes/src/mb" ]
 
 # run as:
