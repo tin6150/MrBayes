@@ -30,6 +30,25 @@ echo "======================= installing beagle from apt ====================="
 echo "======================================================================"
 apt-get -y --quiet install libhmsbeagle-dev libhmsbeagle-java  libhmsbeagle1v5 
 
+# no need for the apt pkg, which is 3.1.2
+# MrBayes compiled with beagle lib in /usr/local, which is the source install below, 
+# and works, at least for CPU:
+# show begle 4.0.0 (pre-lrease), this is from the compiled source.
+
+exit 0
+
+########
+########  exit for now, getting strange error like below
+########  it was with beagle 4.0.0 Prerelease compiled below
+########  so skipping it and only use the apt pkg to see if that works
+########  
+######## Singularity> /opt/MrBayes/src/mb bla
+######## X Error of failed request:  BadRequest (invalid request code or no such operation)
+########   Major opcode of failed request:  153 (DRI2)
+########   Minor opcode of failed request:  1 (DRI2Connect)
+########   Serial number of failed request:  11
+########   Current serial number in output stream:  11
+
 
 #### install beagle ####
 

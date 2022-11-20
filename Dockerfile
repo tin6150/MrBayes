@@ -30,7 +30,7 @@ RUN echo  ''  ;\
     apt-get update ;\
     apt-get -y --quiet install git git-all file wget curl gzip bash zsh fish tcsh less vim procps screen tmux ;\
     apt-get -y --quiet install apt-file ;\
-    test -d /opt/gitrepo/mrbayes || mkdir -p /opt/gitrepo/mrbayes ;\
+    #test -d /opt/gitrepo/mrbayes || mkdir -p /opt/gitrepo/mrbayes ;\
     echo ''
 
 #COPY . /opt/gitrepo/mrbayes/
@@ -87,7 +87,7 @@ RUN echo  ''  ;\
     ln -s /opt/MrBayes/src/mb /opt ;\
     echo ''
 
-ENV DBG_CONTAINER_VER  "Dockerfile 2022.1119.0958"
+ENV DBG_CONTAINER_VER  "Dockerfile 2022.1120.1208_beagle312.deb"
 ENV DBG_DOCKERFILE Dockerfile_plain
 
 RUN  cd / \

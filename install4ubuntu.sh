@@ -110,7 +110,8 @@ echo "====installing MrBayes ===="
     cd MrBayes
     ## ./configure --with-mpi --enable-doc=no
     #./configure --with-mpi --enable-doc=yes --with-beagle=/opt/beagle-lib
-    ./configure --with-mpi --enable-doc=yes --with-beagle=/usr/local
+    #--./configure --with-mpi --enable-doc=yes --with-beagle=/usr/local					# from local comile v4.0.0 prerelease
+    ./configure --with-mpi --enable-doc=yes --with-beagle=/usr/lib/x86_64-linux-gnu/  	# from apt install libhmsbeagle1v5 3.1.2
     make -j2
 
     # Test MPI (parallel) version
