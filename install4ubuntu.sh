@@ -1,11 +1,12 @@
 #!/bin/bash
 
+# Install MrBayes+Beagle3 inside an Ubuntu 20.04 Docker container
+
 # script invoked by github workflow to contain docker container
 # use Ubuntu base.
-# commands from INSTALL-Docker-Ubuntu.md
+# mostly commands from INSTALL-Docker-Ubuntu.md
 # except for Beagle, which didn't work, and I used my own script
 #
-# Install MrBayes+Beagle3 inside an Ubuntu 20.04 Docker container
 
 
 echo "======================================================================"
@@ -78,14 +79,13 @@ echo "============================================================"
 echo "====installing openCL===="
 
     # OpenCL
-    apt install -y \
-        ocl-icd-opencl-dev \
-        pocl-opencl-icd
+    #// apt install -y  ocl-icd-opencl-dev  pocl-opencl-icd
+	#// skipping, seems to be conflicting with CUDA and result in "Illegal instruction"
 
 echo "====installing openMPI===="
 
     # OpenMPI
-    apt install -y \
+    apt install -y 
         libopenmpi-dev
 
 echo "==== beagle-lib pre-done by separate install script ===="
@@ -114,7 +114,8 @@ echo "==========================="
     #./configure --with-mpi --enable-doc=yes --with-beagle=/opt/beagle-lib
     #--./configure --with-mpi --enable-doc=yes --with-beagle=/usr/local					# from local comile v4.0.0 prerelease
     #--./configure --with-mpi --enable-doc=yes --with-beagle=/usr/lib/x86_64-linux-gnu/  	# from apt install libhmsbeagle1v5 3.1.2, still error
-    ./configure            --enable-doc=no  --with-beagle=/usr/lib/x86_64-linux-gnu/  	# 
+    #--./configure            --enable-doc=no  --with-beagle=/usr/lib/x86_64-linux-gnu/  	# nompi, still "Illegal instruction"
+    ./configure --with-mpi --enable-doc=yes --with-beagle=/usr/lib/x86_64-linux-gnu/  	# disabled opencl block above
     make -j2
 
     # Test MPI (parallel) version
