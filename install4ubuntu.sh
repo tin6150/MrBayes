@@ -85,8 +85,7 @@ echo "====installing openCL===="
 echo "====installing openMPI===="
 
     # OpenMPI
-    apt install -y 
-        libopenmpi-dev
+    apt install -y libopenmpi-dev
 
 echo "==== beagle-lib pre-done by separate install script ===="
 
@@ -115,7 +114,7 @@ echo "==========================="
     #--./configure --with-mpi --enable-doc=yes --with-beagle=/usr/local					# from local comile v4.0.0 prerelease
     #--./configure --with-mpi --enable-doc=yes --with-beagle=/usr/lib/x86_64-linux-gnu/  	# from apt install libhmsbeagle1v5 3.1.2, still error
     #--./configure            --enable-doc=no  --with-beagle=/usr/lib/x86_64-linux-gnu/  	# nompi, still "Illegal instruction"
-    ./configure --with-mpi --enable-doc=yes --with-beagle=/usr/lib/x86_64-linux-gnu/  	# disabled opencl block above
+    ./configure --with-mpi --enable-doc=no --with-beagle=/usr/lib/x86_64-linux-gnu/  	# disabled opencl block above
     make -j2
 
     # Test MPI (parallel) version
