@@ -3,8 +3,8 @@
 # MPI 
 # MrBayes at github master (v3.2.7a)
 
-#FROM ubuntu:focal 
-FROM nvidia/cuda:11.4.2-devel-ubuntu20.04
+FROM ubuntu:focal 
+#FROM nvidia/cuda:11.4.2-devel-ubuntu20.04  ## didn't work for mb/beagle/opencl/openmpi, Illegal instruction , albeit host has CUDA 11.4 A40
 
 LABEL Source1="https://github.com/NBISweden/MrBayes"
 LABEL Source2="https://github.com/beagle-dev/beagle-lib/wiki/LinuxInstallInstructions"
@@ -87,7 +87,7 @@ RUN echo  ''  ;\
     ln -s /opt/MrBayes/src/mb /opt ;\
     echo ''
 
-ENV DBG_CONTAINER_VER  "Dockerfile 2022.1121.p758_beagle312.deb_noopencl"
+ENV DBG_CONTAINER_VER  "Dockerfile 2022.1121.2358_beagle312_noopencl_ubu"
 ENV DBG_DOCKERFILE Dockerfile_plain
 
 RUN  cd / \
