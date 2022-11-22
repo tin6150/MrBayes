@@ -87,7 +87,7 @@ RUN echo  ''  ;\
     ln -s /opt/MrBayes/src/mb /opt ;\
     echo ''
 
-ENV DBG_CONTAINER_VER  "Dockerfile 2022.1121.2358_beagle312_noopencl_ubu"
+ENV DBG_CONTAINER_VER  "Dockerfile 2022.1122.0848_ubu_beagle312"
 ENV DBG_DOCKERFILE Dockerfile_plain
 
 RUN  cd / \

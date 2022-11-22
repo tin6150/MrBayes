@@ -79,8 +79,9 @@ echo "============================================================"
 echo "====installing openCL===="
 
     # OpenCL
-    #// apt install -y  ocl-icd-opencl-dev  pocl-opencl-icd
-	#// skipping, seems to be conflicting with CUDA and result in "Illegal instruction"
+    apt install -y  ocl-icd-opencl-dev  pocl-opencl-icd
+	#// check... seems to be conflicting with CUDA and result in "Illegal instruction", 
+	#// now testing in vanilla ubuntu container without CUDA
 
 echo "====installing openMPI===="
 
@@ -103,30 +104,34 @@ echo "==== beagle-lib pre-done by separate install script ===="
     #xx cd ..
 
 echo "==========================="
-echo "====installing MrBayes ===="
+echo "==== build + installing MrBayes ===="
 echo "==========================="
 
     # MrBayes
     git clone --depth=1 --branch=develop https://github.com/NBISweden/MrBayes.git
     cd MrBayes
+
+	### this produce a serial version,
+    ./configure --enable-doc=no
+    make -j2
+
+    # Test serial version
+    mv src/mb src/mb-serial
+    src/mb-serial <<< 'version;showb;quit'
+
+	echo "==== build MrBayes with mpi ===="
+    make clean
+
     ## ./configure --with-mpi --enable-doc=no
     #./configure --with-mpi --enable-doc=yes --with-beagle=/opt/beagle-lib
     #--./configure --with-mpi --enable-doc=yes --with-beagle=/usr/local					# from local comile v4.0.0 prerelease
     #--./configure --with-mpi --enable-doc=yes --with-beagle=/usr/lib/x86_64-linux-gnu/  	# from apt install libhmsbeagle1v5 3.1.2, still error
     #--./configure            --enable-doc=no  --with-beagle=/usr/lib/x86_64-linux-gnu/  	# nompi, still "Illegal instruction"
-    ./configure --with-mpi --enable-doc=no --with-beagle=/usr/lib/x86_64-linux-gnu/  	# disabled opencl block above
+    ./configure --with-mpi --enable-doc=no --with-beagle=/usr/lib/x86_64-linux-gnu/  	# with opencl to start
     make -j2
 
     # Test MPI (parallel) version
     mpirun --allow-run-as-root -np 1 src/mb <<< 'version;showb;quit'
-
-	### this produce a serial version, but overwrite prev build?  why?  missing a test condition?
-    #?? make clean
-    #?? ./configure --enable-doc=no
-    #?? make -j2
-
-    # Test serial version
-    src/mb <<< 'version;showb;quit'
 
 
 echo $?
