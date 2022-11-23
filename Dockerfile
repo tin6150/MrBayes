@@ -85,9 +85,11 @@ RUN echo  ''  ;\
     #xxln -s /opt/gitrepo/container/src/mb /bin ;\
     ln -s /opt/MrBayes/src/mb /bin ;\
     ln -s /opt/MrBayes/src/mb /opt ;\
+    ln -s /opt/MrBayes/src/mb-serial /bin ;\
+    ln -s /opt/MrBayes/src/mb-serial /opt ;\
     echo ''
 
-ENV DBG_CONTAINER_VER  "Dockerfile 2022.1122.0848_ubu_beagle312"
+ENV DBG_CONTAINER_VER  "Dockerfile 2022.1122.2238_ubu_beagle312_noOpenCL"
 ENV DBG_DOCKERFILE Dockerfile_plain
 
 RUN  cd / \

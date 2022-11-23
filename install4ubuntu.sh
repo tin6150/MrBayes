@@ -79,9 +79,13 @@ echo "============================================================"
 echo "====installing openCL===="
 
     # OpenCL
-    apt install -y  ocl-icd-opencl-dev  pocl-opencl-icd
+    #// apt install -y  ocl-icd-opencl-dev  pocl-opencl-icd
 	#// check... seems to be conflicting with CUDA and result in "Illegal instruction", 
 	#// now testing in vanilla ubuntu container without CUDA
+	#// even container without cuda can get into problem when GPU is not what is handled
+	#// may have some optimization tied to the cloud build server 
+	#// thus skipping for now  to see if at least non cuda base could work
+	#// see DevNotes.sn50.rst for details.
 
 echo "====installing openMPI===="
 
@@ -127,7 +131,7 @@ echo "==========================="
     #--./configure --with-mpi --enable-doc=yes --with-beagle=/usr/local					# from local comile v4.0.0 prerelease
     #--./configure --with-mpi --enable-doc=yes --with-beagle=/usr/lib/x86_64-linux-gnu/  	# from apt install libhmsbeagle1v5 3.1.2, still error
     #--./configure            --enable-doc=no  --with-beagle=/usr/lib/x86_64-linux-gnu/  	# nompi, still "Illegal instruction"
-    ./configure --with-mpi --enable-doc=no --with-beagle=/usr/lib/x86_64-linux-gnu/  	# with opencl to start
+    ./configure --with-mpi --enable-doc=no --with-beagle=/usr/lib/x86_64-linux-gnu/  	# opencl problem, fatal in v100, skippable in A40
     make -j2
 
     # Test MPI (parallel) version
